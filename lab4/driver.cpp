@@ -1,3 +1,10 @@
+// NAME BLOCK
+// Lab:  04
+// Name: Neil Dandekar & Xi Gao
+// The purpose of lab 04 is to demonstrate Trees (Binary Search Trees) and 
+// its algorithms in OOP programming.
+///////////////////////////////////////////////////////////////////////////
+
 #include <iostream>
 #include "BST.cpp"
 #include "Currency.cpp"
@@ -6,20 +13,6 @@
 #include "SinglyLinkedList.cpp"
 
 using namespace std;
-
-void UI(int i) {
-    switch(i) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        default:
-        break;
-    }
-}
 
 int main() {
     // Welcome message
@@ -39,21 +32,68 @@ int main() {
     }
     
     // Run UI
-    while(false) {
-        
+    cout << "\nInstructions: Type a number (1-5) to select an operation:" << endl;
+    cout << "\t1. Add Krone" << endl;
+    cout << "\t2. Delete Krone" << endl;
+    cout << "\t3. Search Krone" << endl;
+    cout << "\t4. Print BST Traversals" << endl;
+    cout << "\t5. Print BST Traversals & Exit Program" << endl;
+
+    while(true) {
+        int i;
+        while(true) {
+            string input;
+            cout << "\nChoose an operation: ";
+            getline(cin, input);
+            try {
+                i = stoi(input);
+            }
+            catch(const std::exception& e) {
+                cout << "ERROR: Operation # must be an integer. Please try again." << endl;
+            }
+            if(i < 1 || i > 5) cout << "ERROR: Operation # must be between 1 and 5. Please try again." << endl;
+            else break;
+        }
+
+        switch(i) {
+            // Add Krone:
+            case 1:
+                cout << "Enter Krone value to add: ";
+                break;
+            // Delete Krone:
+            case 2:
+                cout << "Enter Krone value to delete: ";
+                break;
+            // Search Krone:
+            case 3:
+                cout << "Enter Krone value to search: ";
+                break;
+            // Print BST:
+            case 4:
+                // print
+                break;
+            // Print BST & Exit:
+            case 5:
+                cout << "_______________________________\nThank you for using our program. "
+                << "\n-Neil Dandekar and Xi Gao, 03.04.2023" << endl;
+                break;
+            default:
+            break;
+        }
+        if(i == 5) break;
     }
 
-    BST tree;
-    for(int i = 0; i < 20; i++) {
-        tree.insert(tree.getRoot(),kr[i]);
-    }
+    // BST tree;
+    // for(int i = 0; i < 20; i++) {
+    //     tree.insert(tree.getRoot(),kr[i]);
+    // }
 
-    cout << boolalpha << ( tree.search(new Krone(1912834798.00)) == nullptr ) << endl;
-    cout << endl;
+    // cout << boolalpha << ( tree.search(new Krone(1912834798.00)) == nullptr ) << endl;
+    // cout << endl;
 
-    tree.print();
+    // tree.print();
     
-    cout << tree.isEmpty() << endl;
+    // cout << tree.isEmpty() << endl;
     
     // Cleanup
     for(int i = 0; i < 20; i++) {
