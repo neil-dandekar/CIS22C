@@ -5,6 +5,9 @@
 // and Queue ADTs in OOP programming.
 ///////////////////////////////////////////////////////////////////////////
 
+// MODIFIED FOR LAB 4:
+// * Line 206: printList() method
+
 #include <iostream>
 #include "Currency.cpp"
 #include "Krone.cpp"
@@ -28,8 +31,8 @@ class SinglyLinkedList {
     }
 
     SinglyLinkedList(Currency* curr) {
-        this->count = 1;
         LinkNode* n = new LinkNode(curr);
+        this->count = 1;
         this->start = n;
         this->end = n;
     }
@@ -104,7 +107,6 @@ class SinglyLinkedList {
         if(isListEmpty()) return nullptr;
 
         LinkNode* temp = start;
-        Currency* copy = nullptr;
 
         int index = 0;
         while(!(curr->isEqual( *(temp->data) ))) {
@@ -192,7 +194,7 @@ class SinglyLinkedList {
         return copy;
     }
 
-
+    // MODIFIED - added 'std::cout' due to change in print method in Currency.cpp
     void printList() {
     // PURPOSE:  Prints the SinglyLinkedList.
     // PRE:    - Must be called on a SinglyLinkedList instance.
@@ -201,7 +203,7 @@ class SinglyLinkedList {
         if(isListEmpty()) return; // Return if list is empty.
         LinkNode* temp = start;
         for (int i = 0; i < count; i++) {
-            temp->data->print();
+            temp->data->print(std::cout); // MODIFIED for file output
             std::cout << "\t";
             temp = temp->next;
         }

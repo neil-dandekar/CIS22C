@@ -13,12 +13,12 @@
 // currency object.
 class Krone: public Currency {
     protected:
-    const std::string name = "Krone";
+    std::string name;
 
     public:
     // Krone class constructor.
     Krone() : Currency() {
-
+        this->name = "Krone";
     }
 
     // Overloaded Krone class constructor (double input).
@@ -47,4 +47,5 @@ class Krone: public Currency {
     }
 
 };
+
 #endif // KRONE

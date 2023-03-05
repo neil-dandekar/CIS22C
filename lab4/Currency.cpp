@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 // MODIFIED FOR LAB 4:
-// * Line 178: Print method
+// * Line 178: print() method
 
 #include <iostream>
 #include <iomanip>
@@ -174,8 +174,8 @@ class Currency {
         return thisValue > anotherValue;
     }
 
-    // MODIFIED - now returns object data as string
-    void print(std::ostream& s) { // modified for outputfile
+    // MODIFIED - now outputs to file and console
+    void print(std::ostream& s = std::cout) { // MODIFIED for file output
         // Returns the member Currency object as a std::string format.
         // Pre: fractional value has to be greater than or equal to 0 and less than 100. Whole value is greater than or equal to 0.
         // post: nothing changed.

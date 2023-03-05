@@ -5,8 +5,13 @@
 // and Queue ADTs in OOP programming.
 ///////////////////////////////////////////////////////////////////////////
 
+// MODIFIED FOR LAB 4:
+// * Lines 13, 14, 68: Added header guard
+
 #include "Currency.cpp"
 #include "SinglyLinkedList.cpp"
+#ifndef QUEUE // Header guard
+#define QUEUE // Header guard
 
 class Queue: private SinglyLinkedList {
     public:
@@ -58,3 +63,6 @@ class Queue: private SinglyLinkedList {
         SinglyLinkedList::printList();
     }
 };
+
+// Header guard:
+#endif // QUEUE
