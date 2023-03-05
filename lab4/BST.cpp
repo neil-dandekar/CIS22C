@@ -18,6 +18,11 @@ class BSTNode {
     BSTNode* leftChild;
     BSTNode* rightChild;
 
+    BSTNode() {
+        this->leftChild = nullptr;
+        this->rightChild = nullptr;
+    }
+
     BSTNode(Krone* krone) {
         this->kr = krone;
         this->leftChild = nullptr;
@@ -76,6 +81,20 @@ class BST {
             s << " ";
         }
     }
+
+    BSTNode* search(Krone* kr, BSTNode& parent, BSTNode* root) {
+        if(root == nullptr) return nullptr;
+
+        if(kr->isEqual(*(root->getKr()))) return root;
+        else if(kr->isGreater(*(root->getKr()))) {
+            parent = *root;
+            return this->search(kr, parent, root->rightChild);
+        }
+        else {
+            parent = *root;
+            return this->search(kr, parent, root->leftChild);
+        }
+    }
     
     public:
     BST() {
@@ -85,8 +104,12 @@ class BST {
     BST(Krone* kr) {
         root = new BSTNode(kr);
     }
+
+    ~BST() {
+        deleteAll(getRoot());
+    }
     
-    BSTNode* getRoot(){
+    BSTNode* getRoot() {
         return root;
     }
     
@@ -101,12 +124,30 @@ class BST {
         delete node;
     }
     
-    ~BST() {
-        deleteAll(getRoot());
+    BSTNode* search(Krone* kr, BSTNode& parent) {
+        return search(kr, parent, this->root);
     }
-    
-    ////////////
-    
+
+    bool deleteNode(BSTNode* root, Krone* kr) {
+        BSTNode* parentRemove;
+        BSTNode* removeNode = search(kr, *parentRemove);
+        if(removeNode == nullptr || root == nullptr) return false;
+        if(removeNode->leftChild == nullptr) parentRemove->rightChild = removeNode->rightChild;
+        else if(removeNode->rightChild  == nullptr) parentRemove->leftChild = removeNode->leftChild;
+        else {
+            BSTNode* smallest = removeNode->rightChild;
+
+            while(true) {
+                if(smallest->leftChild != nullptr) smallest = smallest->leftChild;
+            }
+
+            parentRemove->leftChild = removeNode->leftChild;
+            removeNode = smallest;
+            delete smallest;
+        }
+        return true;
+    }
+
     void insert(BSTNode* node, Krone* krToBeInserted) {
         if(node == nullptr) {
             root = new BSTNode(krToBeInserted);
@@ -131,11 +172,8 @@ class BST {
                     BSTNode* nodeToBeInserted =  new BSTNode(krToBeInserted);
                     node->rightChild = nodeToBeInserted;
                 }
-                
             }
-            
         }
-       
     }
     
     void print() {
@@ -153,7 +191,7 @@ class BST {
         cout << endl;
 
         ofstream myFile;
-        myFile.open("FourTraversalOutPut.txt");
+        myFile.open("output.txt");
         myFile << "BreadthFirst traversal:" << endl;
         breadthFirst(root, myFile);
         myFile << endl;
@@ -168,19 +206,15 @@ class BST {
         myFile.close();
     }
     
+    void empty() {
+        if(root->leftChild != nullptr)
+            deleteAll(root->leftChild);
+        if(root->leftChild != nullptr)
+            deleteAll(root->rightChild);
+        root = nullptr;
+    }
+
     bool isEmpty() {
         return root == nullptr;
-    }
-
-    BSTNode* search(Krone* kr) {
-        return search(kr, this->root);
-    }
-
-    BSTNode* search(Krone* kr, BSTNode* root) {
-        if(root == nullptr) return nullptr;
-
-        if(kr->isEqual(*(root->getKr()))) return root;
-        else if(kr->isGreater(*(root->getKr()))) return this->search(kr, root->rightChild);
-        else return this->search(kr, root->leftChild);
     }
 };

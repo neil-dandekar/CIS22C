@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <fstream>
 #include "BST.cpp"
 #include "Currency.cpp"
 #include "Krone.cpp"
@@ -31,6 +32,19 @@ int main() {
         kr[i] = new Krone(arr[i]);
     }
     
+    // BST tree
+    BST tree;
+    for(int i = 0; i < 20; i++) {
+        tree.insert(tree.getRoot(), kr[i]);
+    }
+
+    // BST print
+    tree.print();
+
+    tree.deleteNode(tree.getRoot(), new Krone(23.44));
+    cout << "After delete" << endl;
+    tree.print();
+
     // Run UI
     cout << "\nInstructions: Type a number (1-5) to select an operation:" << endl;
     cout << "\t1. Add Krone" << endl;
@@ -39,8 +53,10 @@ int main() {
     cout << "\t4. Print BST Traversals" << endl;
     cout << "\t5. Print BST Traversals & Exit Program" << endl;
 
+    ofstream myFile;
+    myFile.open("output.txt");
     while(true) {
-        int i;
+        int i = 0;
         while(true) {
             string input;
             cout << "\nChoose an operation: ";
@@ -55,46 +71,66 @@ int main() {
             else break;
         }
 
+        double value = 0;
         switch(i) {
             // Add Krone:
-            case 1:
+            case 1: {
                 cout << "Enter Krone value to add: ";
+                cin >> value;
+                if(value < 0) {
+                    cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
+                    myFile << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
+                }
+                else if(tree.search(new Krone(value), *(new BSTNode())) != nullptr) {
+                    cout << "Ignored. Krone value \'" << value << "\' already exists in tree." << endl;
+                    myFile << "Ignored. Krone value \'" << value << "\' already exists in tree." << endl;
+                }
+                tree.insert(tree.getRoot(), new Krone(value));
                 break;
+            }
+
             // Delete Krone:
-            case 2:
+            case 2: {
                 cout << "Enter Krone value to delete: ";
+                cin >> value;
+                if(value < 0) cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
+                else if(tree.search(new Krone(value), *(new BSTNode())) == nullptr) cout << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
+                // tree.deleteNode(new Krone(value));
                 break;
+            }
+
             // Search Krone:
-            case 3:
+            case 3: {
                 cout << "Enter Krone value to search: ";
+                cin >> value;
+                tree.search(new Krone(value), *(new BSTNode()))->getKr()->print();
                 break;
+            }
+
             // Print BST:
-            case 4:
-                // print
+            case 4: {
+                tree.print();
                 break;
+            }
+
             // Print BST & Exit:
-            case 5:
+            case 5:  {
                 cout << "_______________________________\nThank you for using our program. "
                 << "\n-Neil Dandekar and Xi Gao, 03.04.2023" << endl;
                 break;
+            }
+
             default:
-            break;
+                break;
         }
         if(i == 5) break;
+
+        string s;
+        getline(cin, s);
     }
-
-    // BST tree;
-    // for(int i = 0; i < 20; i++) {
-    //     tree.insert(tree.getRoot(),kr[i]);
-    // }
-
-    // cout << boolalpha << ( tree.search(new Krone(1912834798.00)) == nullptr ) << endl;
-    // cout << endl;
-
-    // tree.print();
     
-    // cout << tree.isEmpty() << endl;
-    
+    myFile.close();
+
     // Cleanup
     for(int i = 0; i < 20; i++) {
         delete kr[i];
