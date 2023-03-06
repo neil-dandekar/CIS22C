@@ -32,36 +32,17 @@ int main() {
         kr[i] = new Krone(arr[i]);
     }
     
+    ofstream myFile;
+    myFile.open("output.txt");
+
     // BST tree
-    BST tree;
+    BST tree(myFile);
     for(int i = 0; i < 20; i++) {
         tree.insert(tree.getRoot(), kr[i]);
     }
 
     // BST print
     tree.print();
-/////////////////////////////////
-    // // BSTNode parent;
-    // // BSTNode item = *tree.search(new Krone(101.00), parent);
-
-    // // item.getKr()->print();
-    // // parent.getKr()->print();
-    // // cout << endl;
-
-    // BSTNode parentRemove;
-    // // cout << boolalpha << (tree.search(new Krone(87.43), parentRemove)==nullptr) << endl;
-    // tree.deleteNode(tree.getRoot(), new Krone(87.43));
-    // // cout << boolalpha << (tree.search(new Krone(87.43))==nullptr) << endl;
-
-    // // printf("Parent of remove -> right child: \n");
-    // // parentRemove.rightChild->getKr()->print();
-    // // cout << endl;
-    
-    // printf("\n\nAfter delete: \n");
-    // tree.print();
-/////////////////////////////////
-
-
 
     // Run UI
     cout << "\nInstructions: Type a number (1-5) to select an operation:" << endl;
@@ -71,8 +52,6 @@ int main() {
     cout << "\t4. Print BST Traversals" << endl;
     cout << "\t5. Print BST Traversals & Exit Program" << endl;
 
-    ofstream myFile;
-    myFile.open("output2.txt");
     while(true) {
         int i = 0;
         while(true) {
@@ -111,9 +90,15 @@ int main() {
             case 2: {
                 cout << "Enter Krone value to delete: ";
                 cin >> value;
-                if(value < 0) cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
-                else if(tree.search(new Krone(value), *(new BSTNode())) == nullptr) cout << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
-                // tree.deleteNode(new Krone(value));
+                if(value < 0) {
+                    cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
+                    myFile << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
+                }
+                else if(tree.search(new Krone(value), *(new BSTNode())) == nullptr) {
+                    cout << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
+                    myFile << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
+                }
+                else tree.deleteNode(new Krone(value));
                 break;
             }
 
