@@ -40,6 +40,24 @@ int main() {
 
     // BST print
     tree.print();
+    // BSTNode parent;
+    // BSTNode item = *tree.search(new Krone(101.00), parent);
+
+    // item.getKr()->print();
+    // parent.getKr()->print();
+    // cout << endl;
+
+    BSTNode parentRemove;
+    // cout << boolalpha << (tree.search(new Krone(87.43), parentRemove)==nullptr) << endl;
+    tree.deleteNode(tree.getRoot(), new Krone(87.43));
+    // cout << boolalpha << (tree.search(new Krone(87.43))==nullptr) << endl;
+
+    // printf("Parent of remove -> right child: \n");
+    // parentRemove.rightChild->getKr()->print();
+    // cout << endl;
+    
+    printf("\n\nAfter delete: \n");
+    tree.print();
 
 
 

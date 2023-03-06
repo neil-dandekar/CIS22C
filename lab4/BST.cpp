@@ -32,6 +32,14 @@ class BSTNode {
     Krone* getKr() {
         return kr;
     }
+
+    Krone* setKr(double value) {
+        this->kr = new Krone(value);
+    }
+
+    Krone* setKr(Krone* kr) {
+        this->kr = kr;
+    }
 };
 
 class BST {
@@ -81,20 +89,6 @@ class BST {
             s << " ";
         }
     }
-
-    BSTNode* search(Krone* kr, BSTNode& parent, BSTNode* root) {
-        if(root == nullptr) return nullptr;
-
-        if(kr->isEqual(*(root->getKr()))) return root;
-        else if(kr->isGreater(*(root->getKr()))) {
-            parent = *root;
-            return this->search(kr, parent, root->rightChild);
-        }
-        else {
-            parent = *root;
-            return this->search(kr, parent, root->leftChild);
-        }
-    }
     
     public:
     BST() {
@@ -123,35 +117,116 @@ class BST {
         }
         delete node;
     }
+
+    BSTNode* search(Krone* kr, BSTNode& parent, BSTNode* node) {
+        if(node == nullptr) return nullptr;
+
+        if(kr->isEqual(*(node->getKr()))) return node;
+        else if(kr->isGreater(*(node->getKr()))) {
+            parent = *node;
+            return this->search(kr, parent, node->rightChild);
+        }
+        else {
+            parent = *node;
+            return this->search(kr, parent, node->leftChild);
+        }
+    }
+    
+    BSTNode* search(Krone* kr) {
+        BSTNode b;
+        return search(kr, b, this->root);
+    }
+
+    BSTNode* search(Krone* kr, BSTNode* root) {
+        BSTNode b;
+        return search(kr, b, root);
+    }
     
     BSTNode* search(Krone* kr, BSTNode& parent) {
         return search(kr, parent, this->root);
     }
+    
+    BSTNode* searchSmallest() {
+        BSTNode* searchSmallest(this->root);
+    }
 
-    bool deleteNode(BSTNode* root, Krone* kr) {
-        BSTNode* parentRemove;
-        BSTNode* removeNode = search(kr, *parentRemove);
-        if(removeNode == nullptr || root == nullptr) return false;
+    BSTNode* searchSmallest(BSTNode* node) {
+        if(node->leftChild == nullptr) return node;
+        else return searchSmallest(node->leftChild);
+    }
+    
+
+
+    
+    bool deleteNode(BSTNode* node, Krone* kr) {
+        BSTNode parent;
+        BSTNode* removeNode = search(kr, parent, node);
+        BSTNode* parentRemove = &parent;
+
+        cout << "Remove node: ";
+        // removeNode->getKr()->print();
+        // parentRemove->getKr()->print();
+        cout << endl;
+
+        if(removeNode == nullptr || node == nullptr) return false;
         if(removeNode->leftChild == nullptr) parentRemove->rightChild = removeNode->rightChild;
         else if(removeNode->rightChild  == nullptr) parentRemove->leftChild = removeNode->leftChild;
         else {
-            BSTNode* smallest = removeNode->rightChild;
+            // cout << "\nNode to remove: ";
+            // removeNode->getKr()->print();
 
-            while(true) {
-                if(smallest->leftChild != nullptr) smallest = smallest->leftChild;
-            }
+            BSTNode* replaceNode = searchSmallest(removeNode->rightChild);
 
-            parentRemove->leftChild = removeNode->leftChild;
-            removeNode = smallest;
-            delete smallest;
+            // cout << "\nReplacement Node: ";
+            // replaceNode->getKr()->print();
+
+            // PARENT OF TEMP: ///////////
+            // BSTNode parent2;
+            // replaceNode = search(replaceNode->getKr(), parent2);
+            // BSTNode* parentReplace = &parent2;
+
+            // cout << "\nReplacement Node again: ";
+            // replaceNode->getKr()->print();
+            // cout << "\nParent of Replacement Node: ";
+            // parentReplace->getKr()->print();
+            // cout << "\nParent of Replacement Node left child: ";
+            // parentReplace->leftChild->getKr()->print();
+
+            removeNode->setKr(replaceNode->getKr());
+            BSTNode parent2;
+            replaceNode = search(replaceNode->getKr(), parent2, removeNode->rightChild);
+            BSTNode* parentUltimateRemove = &parent2;
+            cout << "\nReplacement Node: ";
+            replaceNode->getKr()->print();
+            cout << "\nParent of Replacement Node: ";
+            parentUltimateRemove->getKr()->print();
+            // replaceNode->rightChild->getKr()->print();
+            // replaceNode->leftChild->getKr()->print();
+            // parentUltimateRemove->leftChild->getKr()->print();
+
+            // deleteNode(parentUltimateRemove, replaceNode->getKr());
+            // return deleteNode(removeNode->rightChild, replaceNode->getKr());
+
+            // cout << "\nNode to remove again: ";
+            // removeNode->getKr()->print();
+
+            // cout << "\nRight subtree of removeNode: ";
+            // removeNode->rightChild->getKr()->print();
+            // replaceNode->getKr()->print();
+
+            // return deleteNode(removeNode->rightChild, replaceNode->getKr());
+
+            // // delete replaceNode;
+            // parentReplace->leftChild = nullptr;
+            // cout << "\nParent of Replacement Node left child again: ";
+            // // parentReplace->leftChild->getKr()->print();
+            // cout << boolalpha << (parentReplace->leftChild == nullptr) << endl;
         }
         return true;
     }
 
     void insert(BSTNode* node, Krone* krToBeInserted) {
-        if(node == nullptr) {
-            root = new BSTNode(krToBeInserted);
-        }
+        if(node == nullptr) this->root = new BSTNode(krToBeInserted);
         else {
             if(node->getKr()->isGreater(*krToBeInserted)) {
                 if(node->leftChild != nullptr){
