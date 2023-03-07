@@ -120,64 +120,6 @@ class BST {
         }
     }
     
-    // bool deleteKr(Krone* kr, BSTNode* node) {
-    //     // Return false if Krone is not in BST:
-    //     if(this->search(kr) == nullptr) return false;
-
-    //     // Searching for node to delete (deleteNode):
-    //     while(!kr->isEqual(*node->getKr())) {
-    //         // Subtree is empty
-    //         if(node == nullptr) return false;
-    //         // Krone is in right subtree
-    //         else if(kr->isGreater(*(node->getKr()))) node = node->rightChild;
-    //         // Krone is in left subtree
-    //         else node = node->leftChild;
-    //     }
-
-    //     // Finding parent of node:
-    //     BSTNode* nodeParent;
-    //     if(kr->isEqual(*this->root->getKr())) {
-    //         BSTNode* temp = searchSmallest(root->rightChild);
-    //         temp = this->search(temp->getKr());
-
-    //         deleteKr(temp->getKr(), root->rightChild);
-    //         this->root->setKr(temp->getKr());
-    //     }
-    //     else {
-    //         BSTNode temp;
-    //         this->search(node->getKr(), temp);
-    //         nodeParent = this->search(temp.getKr());
-    //     }
-
-    //     // If node is a leaf:
-    //     if(node->leftChild == nullptr && node->rightChild == nullptr) {
-    //         // node is right child:
-    //         if(node->getKr()->isGreater(*nodeParent->getKr())) nodeParent->rightChild = nullptr;
-    //         // node is left child:
-    //         else nodeParent->leftChild = nullptr;
-    //     }
-    //     // deleteNode only has right subtree:
-    //     else if(node->leftChild == nullptr) {
-    //         nodeParent->rightChild = node->rightChild;
-    //         delete node;
-    //     }
-    //     // deleteNode only has left subtree:
-    //     else if(node->rightChild == nullptr) {
-    //         nodeParent->leftChild = node->leftChild;
-    //         delete node;
-    //     }
-    //     // deleteNode has two children:
-    //     else {
-    //         BSTNode* temp = searchSmallest(node->rightChild);
-    //         temp = this->search(temp->getKr());
-
-    //         deleteKr(temp->getKr(), node->rightChild);
-    //         node->setKr(temp->getKr());
-    //     }
-    //     return true;
-    // }
-
-    // PURPOSE:  delete a specified Krone value from tree
     // PRE:    - krToBeDeleted: Krone to be deleted
     //         - nodeToBeDeleted: Node to be deleted
     // POST:   - The node with the specified krone value is deleted, if it exists
