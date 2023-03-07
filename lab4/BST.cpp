@@ -239,13 +239,10 @@ class BST {
     }
 
     bool deleteKr(Krone* kr, BSTNode* node) {
-        cout << "\nNew iteration" << endl;
-        if(node == nullptr) return false;
-        BSTNode parentDeleteNode;
-        // BSTNode* deleteNode = search(kr, parentDeleteNode, node);
-        BSTNode* deleteNode;
-        // Searching for node to delete (deleteNode):
+        // Return false if Krone is not in BST:
+        if(this->search(kr) == nullptr) return false;
 
+        // Searching for node to delete (deleteNode):
         while(!kr->isEqual(*node->getKr())) {
             // Subtree is empty
             if(node == nullptr) return false;
@@ -254,55 +251,38 @@ class BST {
             // Krone is in left subtree
             else node = node->leftChild;
         }
-        
-        // deleteNode is a leaf:
-        else if(node->leftChild == nullptr && node->rightChild == nullptr) {
-            
+
+        // Finding parent of node:
+        BSTNode temp;
+        this->search(node->getKr(), temp);
+        BSTNode* nodeParent = this->search(temp.getKr());
+
+        // If node is a leaf:
+        if(node->leftChild == nullptr && node->rightChild == nullptr) {
             // node is right child:
             if(node->getKr()->isGreater(*nodeParent->getKr())) nodeParent->rightChild = nullptr;
             // node is left child:
             else nodeParent->leftChild = nullptr;
         }
         // deleteNode only has right subtree:
-        else if(deleteNode->leftChild == nullptr) {
-            cout << "\tDeleteNode (only has right subtree): ";
-            deleteNode->getKr()->print();
-            cout << endl;
-            BSTNode* temp = deleteNode->rightChild;
-            deleteNode = temp;
-            delete temp;
+        else if(node->leftChild == nullptr) {
+            nodeParent->rightChild = node->rightChild;
+            delete node;
         }
         // deleteNode only has left subtree:
-        else if(deleteNode->rightChild == nullptr) {
-            cout << "\tDeleteNode (only has left subtree): ";
-            deleteNode->getKr()->print();
-            cout << endl;
-            BSTNode* temp = deleteNode->leftChild;
-            deleteNode = temp;
-            delete temp;
+        else if(node->rightChild == nullptr) {
+            nodeParent->leftChild = node->leftChild;
+            delete node;
         }
         // deleteNode has two children:
         else {
-            cout << "\tDeleteNode (has two children): " << endl;
-            deleteNode->getKr()->print();
             BSTNode* temp = searchSmallest(node->rightChild);
+            temp = this->search(temp->getKr());
+
+            deleteKr(temp->getKr(), node->rightChild);
             node->setKr(temp->getKr());
-            return deleteKr(temp->getKr(), node->rightChild);
         }
         return true;
-    }
-
-    BSTNode* Delete(BSTNode* root, Krone* kr) {
-        if(root == nullptr) return root;
-        else if(!kr->isGreater(*root->getKr())) root->leftChild = Delete(root->leftChild, kr);
-        else if(kr->isGreater(*root->getKr())) root->rightChild = Delete(root->rightChild, kr);
-        else {
-            if(root->leftChild == nullptr && root->rightChild == nullptr) {
-                delete root;
-                root = nullptr;
-                return root;
-            }
-        }
     }
 
 
@@ -427,13 +407,9 @@ int main() {
     tree.print();
     
     printf("\nSTART DELETE");
-    tree.deleteKr(new Krone(1));
+    tree.deleteKr(new Krone(0));
     printf("\nEND DELETE\n");
 
     printf("\n");
     tree.print();
-
-    cout << "\n";
-    cout << boolalpha << (tree.search(new Krone(1)) != nullptr);
-    tree.search(new Krone(1))->getKr()->print();
 }
