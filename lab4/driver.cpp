@@ -98,7 +98,7 @@ int main() {
                     cout << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
                     myFile << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
                 }
-                else tree.deleteNode(new Krone(value));
+                // else tree.deleteNode(new Krone(value));
                 break;
             }
 
