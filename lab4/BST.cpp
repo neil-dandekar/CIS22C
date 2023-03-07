@@ -120,6 +120,117 @@ class BST {
         }
     }
     
+    // bool deleteKr(Krone* kr, BSTNode* node) {
+    //     // Return false if Krone is not in BST:
+    //     if(this->search(kr) == nullptr) return false;
+
+    //     // Searching for node to delete (deleteNode):
+    //     while(!kr->isEqual(*node->getKr())) {
+    //         // Subtree is empty
+    //         if(node == nullptr) return false;
+    //         // Krone is in right subtree
+    //         else if(kr->isGreater(*(node->getKr()))) node = node->rightChild;
+    //         // Krone is in left subtree
+    //         else node = node->leftChild;
+    //     }
+
+    //     // Finding parent of node:
+    //     BSTNode* nodeParent;
+    //     if(kr->isEqual(*this->root->getKr())) {
+    //         BSTNode* temp = searchSmallest(root->rightChild);
+    //         temp = this->search(temp->getKr());
+
+    //         deleteKr(temp->getKr(), root->rightChild);
+    //         this->root->setKr(temp->getKr());
+    //     }
+    //     else {
+    //         BSTNode temp;
+    //         this->search(node->getKr(), temp);
+    //         nodeParent = this->search(temp.getKr());
+    //     }
+
+    //     // If node is a leaf:
+    //     if(node->leftChild == nullptr && node->rightChild == nullptr) {
+    //         // node is right child:
+    //         if(node->getKr()->isGreater(*nodeParent->getKr())) nodeParent->rightChild = nullptr;
+    //         // node is left child:
+    //         else nodeParent->leftChild = nullptr;
+    //     }
+    //     // deleteNode only has right subtree:
+    //     else if(node->leftChild == nullptr) {
+    //         nodeParent->rightChild = node->rightChild;
+    //         delete node;
+    //     }
+    //     // deleteNode only has left subtree:
+    //     else if(node->rightChild == nullptr) {
+    //         nodeParent->leftChild = node->leftChild;
+    //         delete node;
+    //     }
+    //     // deleteNode has two children:
+    //     else {
+    //         BSTNode* temp = searchSmallest(node->rightChild);
+    //         temp = this->search(temp->getKr());
+
+    //         deleteKr(temp->getKr(), node->rightChild);
+    //         node->setKr(temp->getKr());
+    //     }
+    //     return true;
+    // }
+
+    // PURPOSE:  delete a specified Krone value from tree
+    // PRE:    - krToBeDeleted: Krone to be deleted
+    //         - nodeToBeDeleted: Node to be deleted
+    // POST:   - The node with the specified krone value is deleted, if it exists
+    // RETURN: - True if node is deleted
+    //         - False if node is not deleted (specified value does not exist)
+    bool deleteKr(Krone* kr, BSTNode* node) {
+        // Return false if Krone is not in BST:
+        if(this->search(kr) == nullptr) return false;
+
+        // Searching for node to delete (deleteNode):
+        while(!kr->isEqual(*node->getKr())) {
+            // Subtree is empty
+            if(node == nullptr) return false;
+            // Krone is in right subtree
+            else if(kr->isGreater(*(node->getKr()))) node = node->rightChild;
+            // Krone is in left subtree
+            else node = node->leftChild;
+        }
+
+        // Finding parent of node:
+        BSTNode temp;
+        this->search(node->getKr(), temp);
+        BSTNode* nodeParent = this->search(temp.getKr());
+
+        // If node is a leaf:
+        if(node->leftChild == nullptr && node->rightChild == nullptr) {
+            // node is right child:
+            if(node->getKr()->isGreater(*nodeParent->getKr())) nodeParent->rightChild = nullptr;
+            // node is left child:
+            else nodeParent->leftChild = nullptr;
+        }
+        // deleteNode only has right subtree:
+        else if(node->leftChild == nullptr) {
+            cout << "right" << endl;
+            nodeParent->rightChild = node->rightChild;
+            delete node;
+        }
+        // deleteNode only has left subtree:
+        else if(node->rightChild == nullptr) {
+            nodeParent->leftChild = node->leftChild;
+            delete node;
+        }
+        // deleteNode has two children:
+        else {
+            BSTNode* temp = searchSmallest(node->rightChild);
+            temp = this->search(temp->getKr());
+
+            deleteKr(temp->getKr(), node->rightChild);
+            node->setKr(temp->getKr());
+        }
+        return true;
+    }
+
     public:
     // BST class default constructor
 
@@ -175,7 +286,7 @@ class BST {
         }
     }
     
-    // Search overloaded methods:
+    // search() overloaded methods:
     BSTNode* search(Krone* kr) {
         BSTNode b;
         return search(kr, b, this->root);
@@ -199,7 +310,7 @@ class BST {
         if(node->leftChild == nullptr) return node;
         else return searchSmallest(node->leftChild);
     }
-    // 
+    // searchSmallest() overloaded methods:
     BSTNode* searchSmallest() {
         return searchSmallest(this->root);
     }
@@ -210,81 +321,9 @@ class BST {
     // POST:   - The node with the specified krone value is deleted, if it exists
     // RETURN: - True if node is deleted
     //         - False if node is not deleted (specified value does not exist)
-    // bool deleteN(BSTNode* node, Krone* kr) { 
-    //     BSTNode* parentRemove;
-    //     BSTNode* removeNode = this->search(kr, *parentRemove);
-    //     if(removeNode == nullptr || root == nullptr) return false;
-    //     if(removeNode->leftChild == nullptr) parentRemove->rightChild = removeNode->rightChild;
-    //     else if(removeNode->rightChild  == nullptr) parentRemove->leftChild = removeNode->leftChild;
-    //     else {
-    //         BSTNode* parentSmallest;
-    //         BSTNode* smallest = this->searchSmallest(removeNode->rightChild);
-    //         smallest = this->search(smallest, )
-    //         removeNode->setKr(replaceNode->getKr());
-    //         BSTNode parent2;
-    //         replaceNode = search(replaceNode->getKr(), parent2, removeNode->rightChild);
-    //         BSTNode* parentUltimateRemove = &parent2;
-    //         std::cout << "\nReplacement Node: ";
-    //         replaceNode->getKr()->print();
-    //         std::cout << "\nParent of Replacement Node: ";
-    //         parentUltimateRemove->getKr()->print();
-    //         parentRemove->leftChild = removeNode->leftChild;
-    //         removeNode = smallest;
-    //         delete smallest;
-    //     }
-    //     return true;
-    // }
     bool deleteKr(Krone* kr) {
         return deleteKr(kr, this->root);
     }
-
-    bool deleteKr(Krone* kr, BSTNode* node) {
-        // Return false if Krone is not in BST:
-        if(this->search(kr) == nullptr) return false;
-
-        // Searching for node to delete (deleteNode):
-        while(!kr->isEqual(*node->getKr())) {
-            // Subtree is empty
-            if(node == nullptr) return false;
-            // Krone is in right subtree
-            else if(kr->isGreater(*(node->getKr()))) node = node->rightChild;
-            // Krone is in left subtree
-            else node = node->leftChild;
-        }
-
-        // Finding parent of node:
-        BSTNode temp;
-        this->search(node->getKr(), temp);
-        BSTNode* nodeParent = this->search(temp.getKr());
-
-        // If node is a leaf:
-        if(node->leftChild == nullptr && node->rightChild == nullptr) {
-            // node is right child:
-            if(node->getKr()->isGreater(*nodeParent->getKr())) nodeParent->rightChild = nullptr;
-            // node is left child:
-            else nodeParent->leftChild = nullptr;
-        }
-        // deleteNode only has right subtree:
-        else if(node->leftChild == nullptr) {
-            nodeParent->rightChild = node->rightChild;
-            delete node;
-        }
-        // deleteNode only has left subtree:
-        else if(node->rightChild == nullptr) {
-            nodeParent->leftChild = node->leftChild;
-            delete node;
-        }
-        // deleteNode has two children:
-        else {
-            BSTNode* temp = searchSmallest(node->rightChild);
-            temp = this->search(temp->getKr());
-
-            deleteKr(temp->getKr(), node->rightChild);
-            node->setKr(temp->getKr());
-        }
-        return true;
-    }
-
 
     // PURPOSE:  insert a BSTNode with the Krone object the user wants to add
     // PRE:    - node: root of the tree or root of the subtree
@@ -344,6 +383,7 @@ class BST {
         myFile << endl;
         myFile << "postOrder traversal:" << endl;
         postOrder(root, myFile);
+        myFile << endl;
     }
     
     // PURPOSE:  count the BSTNode inside the tree
@@ -384,32 +424,32 @@ class BST {
     }
 };
 
-int main() {
-    // Temp array of Krone values
-    double arr[20] =
-        {57.12, 23.44, 87.43, 68.99, 111.22, 44.55,
-        77.77, 18.36, 543.21, 20.21, 345.67, 36.18,
-        48.48, 101.00, 11.00, 21.00, 51.00, 1.00,
-        251.00, 151.00};
-    // Create Krone array
-    Krone* kr[20];
-    for(int i = 0; i < 20; i++) {
-        kr[i] = new Krone(arr[i]);
-    }
-    ofstream myFile;
-    myFile.open("output.txt");
-    // BST tree
-    BST tree(myFile);
-    for(int i = 0; i < 20; i++) {
-        tree.insert(tree.getRoot(), kr[i]);
-    }
+// int main() {
+//     // Temp array of Krone values
+//     double arr[20] =
+//         {57.12, 23.44, 87.43, 68.99, 111.22, 44.55,
+//         77.77, 18.36, 543.21, 20.21, 345.67, 36.18,
+//         48.48, 101.00, 11.00, 21.00, 51.00, 1.00,
+//         251.00, 151.00};
+//     // Create Krone array
+//     Krone* kr[20];
+//     for(int i = 0; i < 20; i++) {
+//         kr[i] = new Krone(arr[i]);
+//     }
+//     ofstream myFile;
+//     myFile.open("output.txt");
+//     // BST tree
+//     BST tree(myFile);
+//     for(int i = 0; i < 20; i++) {
+//         tree.insert(tree.getRoot(), kr[i]);
+//     }
 
-    tree.print();
+//     tree.print();
     
-    printf("\nSTART DELETE");
-    tree.deleteKr(new Krone(0));
-    printf("\nEND DELETE\n");
+//     printf("\nSTART DELETE");
+//     tree.deleteKr(new Krone(20.21));
+//     printf("\nEND DELETE\n");
 
-    printf("\n");
-    tree.print();
-}
+//     printf("\n");
+//     tree.print();
+// }

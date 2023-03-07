@@ -16,8 +16,12 @@
 using namespace std;
 
 int main() {
+    ofstream myFile;
+    myFile.open("output.txt");
+
     // Welcome message
     cout << "Welcome to Lab 4 - Binary Search Trees\nCreated by Xi and Neil\n" << endl;
+    myFile << "Welcome to Lab 4 - Binary Search Trees\nCreated by Xi and Neil\n" << endl;
 
     // Temp array of Krone values
     double arr[20] =
@@ -32,9 +36,6 @@ int main() {
         kr[i] = new Krone(arr[i]);
     }
     
-    ofstream myFile;
-    myFile.open("output.txt");
-
     // BST tree
     BST tree(myFile);
     for(int i = 0; i < 20; i++) {
@@ -52,19 +53,32 @@ int main() {
     cout << "\t4. Print BST Traversals" << endl;
     cout << "\t5. Print BST Traversals & Exit Program" << endl;
 
+    myFile << "\nInstructions: Type a number (1-5) to select an operation:" << endl;
+    myFile << "\t1. Add Krone" << endl;
+    myFile << "\t2. Delete Krone" << endl;
+    myFile << "\t3. Search Krone" << endl;
+    myFile << "\t4. Print BST Traversals" << endl;
+    myFile << "\t5. Print BST Traversals & Exit Program" << endl;
+
     while(true) {
         int i = 0;
         while(true) {
             string input;
             cout << "\nChoose an operation: ";
+            myFile << "\nChoose an operation: ";
             getline(cin, input);
+            myFile << input << endl;
             try {
                 i = stoi(input);
             }
             catch(const std::exception& e) {
                 cout << "ERROR: Operation # must be an integer. Please try again." << endl;
+                myFile << "ERROR: Operation # must be an integer. Please try again." << endl;
             }
-            if(i < 1 || i > 5) cout << "ERROR: Operation # must be between 1 and 5. Please try again." << endl;
+            if(i < 1 || i > 5) {
+                cout << "ERROR: Operation # must be between 1 and 5. Please try again." << endl;
+                myFile << "ERROR: Operation # must be between 1 and 5. Please try again." << endl;
+            }
             else break;
         }
 
@@ -73,7 +87,9 @@ int main() {
             // Add Krone:
             case 1: {
                 cout << "Enter Krone value to add: ";
+                myFile << "Enter Krone value to add: ";
                 cin >> value;
+                myFile << value << endl;
                 if(value < 0) {
                     cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
                     myFile << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
@@ -90,15 +106,16 @@ int main() {
             case 2: {
                 cout << "Enter Krone value to delete: ";
                 cin >> value;
+                myFile << value << endl;
                 if(value < 0) {
                     cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
                     myFile << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
                 }
-                else if(tree.search(new Krone(value), *(new BSTNode())) == nullptr) {
+                else if(tree.search(new Krone(value)) == nullptr) {
                     cout << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
                     myFile << "Ignored. Krone value \'" << value << "\' does not exist in tree." << endl;
                 }
-                // else tree.deleteNode(new Krone(value));
+                else tree.deleteKr(new Krone(value));
                 break;
             }
 
@@ -106,6 +123,7 @@ int main() {
             case 3: {
                 cout << "Enter Krone value to search: ";
                 cin >> value;
+                myFile << value << endl;
                 if(value < 0) {
                     cout << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
                     myFile << "Ignored. Krone value \'"<< value << "\' is invalid." << endl;
@@ -140,6 +158,9 @@ int main() {
                 tree.print();
                 cout << "_______________________________\nThank you for using our program. "
                 << "\n-Neil Dandekar and Xi Gao, 03.04.2023" << endl;
+
+                myFile << "_______________________________\nThank you for using our program. "
+                << "\n-Neil Dandekar and Xi Gao, 03.04.2023" << endl;
                 break;
             }
 
@@ -150,6 +171,7 @@ int main() {
 
         string s;
         getline(cin, s);
+        myFile << value << endl;
     }
     
     myFile.close();
