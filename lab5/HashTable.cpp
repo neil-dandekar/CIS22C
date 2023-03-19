@@ -8,11 +8,10 @@
 #include <cmath>
 #include "Krone.cpp"
 
-
 class HashTable {
     private:
     Krone* arr[29];
-    int numOfItemLoaded = 0;
+    int numOfItemsLoaded = 0;
     int numOfCollision = 0;
 
     public:
@@ -21,10 +20,12 @@ class HashTable {
             arr[i] = nullptr;
         }
     }
-    ~HashTable(){
+
+    ~HashTable() {
         
     }
-    void quadraticProbing(int& i, int& probe) {  // update for less collison time
+
+    void quadraticProbing(int &i, int &probe) {  // update for less collison time
         i += pow(probe, 2);
         if(i > 28) {
             i = i -29;
@@ -43,11 +44,12 @@ class HashTable {
         i = (m*w + n*f)%size;
         return i;
     }
+
     void hash(Krone* kroneToBeInserted) {
         int i = pseudorandomHashScheme(kroneToBeInserted);
         if (arr[i] == nullptr) {
             arr[i] = kroneToBeInserted;
-            numOfItemLoaded++;
+            numOfItemsLoaded++;
         }
         else {
             int n = 1;
@@ -56,18 +58,14 @@ class HashTable {
                 n++;
             }
             arr[i] = kroneToBeInserted;
-            numOfItemLoaded++;
+            numOfItemsLoaded++;
         }
     }
     
     int search(Krone* kroneToBeSearched) {
         int i = pseudorandomHashScheme(kroneToBeSearched);
-        if (arr[i] == nullptr) {
-            return -1;
-        }
-        else if (arr[i]->isEqual(*kroneToBeSearched)) {
-            return i;
-        }
+        if (arr[i] == nullptr) return -1;
+        else if (arr[i]->isEqual(*kroneToBeSearched)) return i;
         else {
             int n = 1;
             while(!(arr[i]->isEqual(*kroneToBeSearched))) {  // check for cycling
@@ -79,14 +77,13 @@ class HashTable {
             }
             return i;
         }
-        
-        
         return -1;
     }
     
-    int getNumOfItemLoaded() {
-        return numOfItemLoaded;
+    int getNumOfItemsLoaded() {
+        return numOfItemsLoaded;
     }
+
     int getNumOfCollision() {
         return numOfCollision;
     }

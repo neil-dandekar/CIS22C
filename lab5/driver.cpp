@@ -1,9 +1,9 @@
-//
-//  main.cpp
-//  lab5
-//
-//  Created by Xi Gao on 3/13/23.
-//
+// NAME BLOCK
+// Lab:  05
+// Name: Neil Dandekar & Xi Gao
+// The purpose of lab 05 is to demonstrate Hash Tables and their algorithms 
+// in OOP programming.
+///////////////////////////////////////////////////////////////////////////
 
 #include "HashTable.cpp"
 using namespace std;
@@ -25,7 +25,7 @@ int main() {
         kroneHashTable.hash(kr[i]);
     }
     
-    int numOfItemLoaded = kroneHashTable.getNumOfItemLoaded();
+    int numOfItemLoaded = kroneHashTable.getNumOfItemsLoaded();
     cout << "Number of data items loaded: " << numOfItemLoaded << endl;
     cout << "Load factor: " << numOfItemLoaded*100/29 << "%"  << endl;
     cout << "Number of collisions: " << kroneHashTable.getNumOfCollision() << endl;
