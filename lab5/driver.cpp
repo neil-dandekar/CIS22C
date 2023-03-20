@@ -20,6 +20,8 @@ int main() {
     for(int i = 0; i < 20; i++) {
         kr[i] = new Krone(arr[i]);
     }
+
+    // Create HashTable
     HashTable kroneHashTable;
     for(int i = 0; i < 20; i++) {
         kroneHashTable.hash(kr[i]);
@@ -27,28 +29,26 @@ int main() {
     
     int numOfItemLoaded = kroneHashTable.getNumOfItemsLoaded();
     cout << "Number of data items loaded: " << numOfItemLoaded << endl;
-    cout << "Load factor: " << numOfItemLoaded*100/29 << "%"  << endl;
+    cout << "Load factor: " << setprecision(4) << numOfItemLoaded*100/29.0 << "%"  << endl;
     cout << "Number of collisions: " << kroneHashTable.getNumOfCollision() << endl;
     
     char answer;
-    do{
-        cout << "Please enter a Krone number to search for: ";
+    do {
+        cout << "\nPlease enter a Krone number to search for: ";
         double value;
         cin >> value;
-        Krone* kroneForSearch = new Krone(value);
-        int i = kroneHashTable.search(kroneForSearch);
-        if (i == -1) {
-            cout << "Invalid Data." << endl;
-        }
-        else {
-            cout << "Index where found in the hash table: " << i << endl;
-        }
-        cout << "Do you want to check again or end the program? Y for check, N for end. " << endl;
+        int i = kroneHashTable.search(new Krone(value));
+        if(i == -1) cout << "Krone value " << value << " was not found." << endl;
+        else cout << "Krone value " << value << " found at index " << i << "."<< endl;
+        cout << "Search again (Y/N)? ";
         cin >> answer;
     } while(answer == 'Y');
+    cout << "_______________________________\nThank you for using our program. "
+    << "\n-Neil Dandekar and Xi Gao, 03.19.2023" << endl;
     
     for(int i = 0; i < 20; i++) {
         delete kr[i];
     }
+
     return 0;
 }
