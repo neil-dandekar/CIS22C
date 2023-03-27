@@ -5,8 +5,6 @@
 // its algorithms in OOP programming.
 ///////////////////////////////////////////////////////////////////////////
 
-#include <iostream>
-#include <fstream>
 #include "Queue.cpp"
 using namespace std;
 
@@ -48,8 +46,7 @@ class BSTNode {
 
 // BST class acts like binary search tree
 class BST {
-    private:
-    ofstream& myFile;
+    protected:
     BSTNode* root;
 
     // PURPOSE:  This method does the breadth-first traversal
@@ -58,7 +55,7 @@ class BST {
     //         - can't be any cycles
     // POST:   - print the tree in breadth-first traversal to the stream s
     // RETURN: - No return value.
-    void breadthFirst(BSTNode* node, ostream& s = std::cout) {
+    void breadthFirst(BSTNode* node) {
         Queue list;
         list.enqueue(reinterpret_cast<Krone*>(node));
         while (node != nullptr) {
@@ -68,8 +65,7 @@ class BST {
             if(node->rightChild != nullptr) {
                 list.enqueue(reinterpret_cast<Krone*>(node->rightChild));
             }
-            reinterpret_cast<BSTNode*>(list.peekFront())->getKr()->print(s);
-            s << " ";
+            reinterpret_cast<BSTNode*>(list.peekFront())->getKr()->print();
             list.dequeue();
             node = reinterpret_cast<BSTNode*>(list.peekFront());
         }
@@ -81,12 +77,11 @@ class BST {
     //         - can't be any cycles
     // POST:   - print the tree in in-Order traversal to the stream s
     // RETURN: - No return value.
-    void inOrder(BSTNode* node, ostream& s = std::cout) {
+    void inOrder(BSTNode* node) {
         if (node != nullptr) {
-            inOrder(node->leftChild, s);
-            node->getKr()->print(s);
-            s << " ";
-            inOrder(node->rightChild, s);
+            inOrder(node->leftChild);
+            node->getKr()->print();
+            inOrder(node->rightChild);
         }
     }
     
@@ -96,12 +91,11 @@ class BST {
     //         - can't be any cycles
     // POST:   - print the tree in pre-Order traversal to the stream s
     // RETURN: - No return value.
-    void preOrder(BSTNode* node, ostream& s = std::cout) {
+    void preOrder(BSTNode* node) {
         if (node != nullptr) {
-            node->getKr()->print(s);
-            s << " ";
-            preOrder(node->leftChild, s);
-            preOrder(node->rightChild, s);
+            node->getKr()->print();
+            preOrder(node->leftChild);
+            preOrder(node->rightChild);
         }
     }
     
@@ -111,12 +105,11 @@ class BST {
     //         - can't be any cycles
     // POST:   - print the tree in post-Order traversal to the stream s
     // RETURN: - No return value.
-    void postOrder(BSTNode* node, ostream& s = std::cout) {
+    void postOrder(BSTNode* node) {
         if (node != nullptr) {
-            postOrder(node->leftChild, s);
-            postOrder(node->rightChild, s);
-            node->getKr()->print(s);
-            s << " ";
+            postOrder(node->leftChild);
+            postOrder(node->rightChild);
+            node->getKr()->print();
         }
     }
     
@@ -176,12 +169,12 @@ class BST {
     public:
     // BST class default constructor
 
-    BST(ofstream& file): myFile(file) {
+    BST() {
         root = nullptr;
     }
 
     // BST class constructor that assign a krone object to a BSTNode and sets the root point to the BSTNode
-    BST(Krone* kr, ofstream& file) : myFile(file) {
+    BST(Krone* kr) {
         root = new BSTNode(kr);
     }
 
@@ -300,7 +293,7 @@ class BST {
     // PURPOSE:  print the tree is breadth-first, in-order, pre-order, post-order sequence of the tree both on screen and an output file
     // PRE:    - no cycles
     // POST:   - printed breadth-first, in-order, pre-order, post-order sequence of the tree on screen and an output file
-    void print() {
+    virtual void print() {
         std::cout << "BreadthFirst traversal:" << endl;
         breadthFirst(root);
         std::cout << endl;
@@ -313,19 +306,6 @@ class BST {
         std::cout << "postOrder traversal:" << endl;
         postOrder(root);
         std::cout << endl;
-
-        myFile << "BreadthFirst traversal:" << endl;
-        breadthFirst(root, myFile);
-        myFile << endl;
-        myFile << "inOrder traversal:" << endl;
-        inOrder(root, myFile);
-        myFile << endl;
-        myFile << "preOrder traversal:" << endl;
-        preOrder(root, myFile);
-        myFile << endl;
-        myFile << "postOrder traversal:" << endl;
-        postOrder(root, myFile);
-        myFile << endl;
     }
     
     // PURPOSE:  count the BSTNode inside the tree
