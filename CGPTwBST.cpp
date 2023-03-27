@@ -1,5 +1,3 @@
-#include "BST.cpp"
-
 #include <iostream>
 
 using namespace std;
@@ -29,27 +27,33 @@ class MinHeap : public BST {
     // Helper function to delete the minimum BSTNode from the heap
     BSTNode* deleteHelper(BSTNode* root) {
         if (!root) {
+            cout << "a";
             return NULL;
         }
         if (!root->leftChild && !root->rightChild) {
+            cout << "b";
             delete root;
             return NULL;
         }
         if (!root->leftChild) {
+            cout << "c";
             BSTNode *temp = root->rightChild;
             delete root;
             return temp;
         }
         if (!root->rightChild) {
+            cout << "d";
             BSTNode *temp = root->leftChild;
             delete root;
             return temp;
         }
         if (root->leftChild->getKr() < root->rightChild->getKr()) {
+            cout << "e";
             swap(*root->getKr(), *root->leftChild->getKr());
             root->leftChild = deleteHelper(root->leftChild);
         }
         else {
+            cout << "f";
             swap(*root->getKr(), *root->rightChild->getKr());
             root->rightChild = deleteHelper(root->rightChild);
         }
@@ -85,50 +89,43 @@ public:
 };
 
 // Driver code to test the MinHeap class
-int main() {
-    MinHeap heap;
-    heap.insert(new Krone(5));
-    heap.insert(new Krone(3));
-    heap.insert(new Krone(8));
-    heap.insert(new Krone(1));
-    heap.insert(new Krone(6));
+// int main() {
+//     MinHeap heap;
+//     heap.insert(new Krone(5));
+//     heap.insert(new Krone(3));
+//     heap.insert(new Krone(8));
+//     heap.insert(new Krone(1));
+//     heap.insert(new Krone(6));
 
-    heap.print();
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
+//     heap.print();
+//     cout << endl;
 
-    cout << "Heap: ";
-    while (heap.search(new Krone(1))) {
-        heap.deleteMin();
-        cout << "1 ";
-    }
-    while (heap.search(new Krone(3))) {
-        heap.deleteMin();
-        cout << "3 ";
-    }
-    while (heap.search(new Krone(5))) {
-        heap.deleteMin();
-        cout << "5 ";
-    }
-    while (heap.search(new Krone(6))) {
-        heap.deleteMin();
-        cout << "6 ";
-    }
-    while (heap.search(new Krone(8))) {
-        heap.deleteMin();
-        cout << "8 ";
-    }
+//     cout << "Heap: ";
+//     while (heap.search(new Krone(1))) {
+//         heap.deleteMin();
+//         cout << "1 ";
+//     }
+//     while (heap.search(new Krone(3))) {
+//         heap.deleteMin();
+//         cout << "3 ";
+//     }
+//     while (heap.search(new Krone(5))) {
+//         heap.deleteMin();
+//         cout << "5 ";
+//     }
+//     while (heap.search(new Krone(6))) {
+//         heap.deleteMin();
+//         cout << "6 ";
+//     }
+//     // while (heap.search(new Krone(8))) {
+//     //     heap.deleteMin();
+//     //     cout << "8 ";
+//     // }
 
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
+//     cout << endl;
+//     cout << endl;
 
-    heap.print();
-    return 0;
-}
+//     heap.print();
+//     // delete &heap;
+//     return 0;
+// }

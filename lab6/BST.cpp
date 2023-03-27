@@ -5,10 +5,14 @@
 // its algorithms in OOP programming.
 ///////////////////////////////////////////////////////////////////////////
 
+// MODIFIED FOR LAB 6:
+// * File Output capability removed
+
 #include "Queue.cpp"
+
 using namespace std;
 
-//BSTNode acts as item node in BST
+// BSTNode acts as item node in BST
 class BSTNode {
     private:
     Krone* kr;
