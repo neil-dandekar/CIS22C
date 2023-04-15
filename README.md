@@ -11,4 +11,4 @@ All labs are thoroughly documented with purpose/pre/post format. And demonstrate
 - Lab 5: HashMaps
 - Lab 6: Heaps
 
-Earned 100% on all labs and A+ final grade in one of the more difficult classes at De Anza. 
+Earned 100% on all labs and A+ final grade in one of the most difficult classes at De Anza. 
